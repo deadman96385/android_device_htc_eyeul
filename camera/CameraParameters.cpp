@@ -227,6 +227,25 @@ const char CameraParameters::ZSL_OFF[] = "off";
 CAMERA_PARAMETERS_EXTRA_C
 #endif
 
+static String8 get_forced_value(String8 key, String8 value)
+{
+    if (key == "face-detection-values") return String8("off");
+    if (key == "face-detection") return String8("off");
+    return value;
+}
+
+static void add(DefaultKeyedVector<String8,String8> &map, String8 key, String8 value)
+{
+    value = get_forced_value(key, value);
+    map.add(key, value);
+}
+
+static void replaceValueFor(DefaultKeyedVector<String8,String8> &map, String8 key, String8 value)
+{
+    value = get_forced_value(key, value);
+    map.replaceValueFor(key, value);
+}
+
 CameraParameters::CameraParameters()
     : CameraParameters_EXT(this), mMap()
 {
@@ -278,12 +297,12 @@ void CameraParameters::unflatten(const String8 &params)
         if (b == 0) {
             // If there's no semicolon, this is the last item.
             String8 v(a);
-            mMap.add(k, v);
+            add(mMap, k, v);
             break;
         }
 
         String8 v(a, (size_t)(b-a));
-        mMap.add(k, v);
+        add(mMap, k, v);
         a = b+1;
     }
 }
@@ -309,11 +328,11 @@ void CameraParameters::set(const char *key, const char *value)
     // The android SDK only wants one frame, so disable this unless the app
     // explicitly asks for it
     if (!get("hdr-need-1x")) {
-        mMap.replaceValueFor(String8("hdr-need-1x"), String8("false"));
+        replaceValueFor(mMap, String8("hdr-need-1x"), String8("false"));
     }
 #endif
 
-    mMap.replaceValueFor(String8(key), String8(value));
+    replaceValueFor(mMap, String8(key), String8(value));
 }
 
 void CameraParameters::set(const char *key, int value)
