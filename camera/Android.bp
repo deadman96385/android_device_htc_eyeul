@@ -1,5 +1,5 @@
 cc_library_static {
-    name: "libcamera_parameters_ext",
-    include_dirs: ["device/htc/hima-common/include", "frameworks/av/include"],
+    name: "libcamera_parameters_ext_eyeul",
+    include_dirs: ["device/htc/eyeul/include", "frameworks/av/include"],
     srcs: ["CameraParameters.cpp", "CameraParameters_EXT.cpp"],
 }
