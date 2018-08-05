@@ -732,7 +732,6 @@ public:
     static const char KEY_FORCE_USE_AUDIO_ENABLED[];
     static const char KEY_ZSL[];
     static const char KEY_CAMERA_MODE[];
-    static const char KEY_SMILEINFO_BYFACE_SUPPORTED[];
     static const char ZSL_OFF[];
     void getRawSize(int *magic, int *sauce) const;
     void getBrightnessLumaTargetSet(int *magic, int *sauce) const;
@@ -743,6 +742,7 @@ public:
 #ifdef CAMERA_PARAMETERS_EXTRA_H
 CAMERA_PARAMETERS_EXTRA_H
 #endif
+=======
 
     /**
      * Returns the the supported preview formats as an enum given in graphics.h

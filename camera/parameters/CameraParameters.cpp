@@ -220,7 +220,6 @@ const char CameraParameters::KEY_GPU_EFFECT_PARAM_3[] = "GE-param3";
 const char CameraParameters::KEY_FORCE_USE_AUDIO_ENABLED[] = "forceuseaudio";
 const char CameraParameters::KEY_ZSL[] = "zsl";
 const char CameraParameters::KEY_CAMERA_MODE[] = "camera-mode";
-const char CameraParameters::KEY_SMILEINFO_BYFACE_SUPPORTED[] = "smileinfo-byface-supported";
 const char CameraParameters::ZSL_OFF[] = "off";
 
 #ifdef CAMERA_PARAMETERS_EXTRA_C
