@@ -21,7 +21,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include <camera/CameraParameters.h>
-#include <camera/CameraParametersExtra.h>
 #include <system/graphics.h>
 
 namespace android {
@@ -107,7 +106,6 @@ const char CameraParameters::WHITE_BALANCE_DAYLIGHT[] = "daylight";
 const char CameraParameters::WHITE_BALANCE_CLOUDY_DAYLIGHT[] = "cloudy-daylight";
 const char CameraParameters::WHITE_BALANCE_TWILIGHT[] = "twilight";
 const char CameraParameters::WHITE_BALANCE_SHADE[] = "shade";
-const char CameraParameters::WHITE_BALANCE_MANUAL_CCT[] = "manual-cct";
 
 // Values for effect settings.
 const char CameraParameters::EFFECT_NONE[] = "none";
@@ -170,7 +168,6 @@ const char CameraParameters::FOCUS_MODE_FIXED[] = "fixed";
 const char CameraParameters::FOCUS_MODE_EDOF[] = "edof";
 const char CameraParameters::FOCUS_MODE_CONTINUOUS_VIDEO[] = "continuous-video";
 const char CameraParameters::FOCUS_MODE_CONTINUOUS_PICTURE[] = "continuous-picture";
-const char CameraParameters::FOCUS_MODE_MANUAL_POSITION[] = "manual";
 
 // Values for light fx settings
 const char CameraParameters::LIGHTFX_LOWLIGHT[] = "low-light";
@@ -224,12 +221,27 @@ const char CameraParameters::KEY_CAMERA_MODE[] = "camera-mode";
 const char CameraParameters::KEY_SMILEINFO_BYFACE_SUPPORTED[] = "smileinfo-byface-supported";
 const char CameraParameters::ZSL_OFF[] = "off";
 
-#ifdef CAMERA_PARAMETERS_EXTRA_C
-CAMERA_PARAMETERS_EXTRA_C
-#endif
+static String8 get_forced_value(String8 key, String8 value)
+{
+    if (key == "face-detection-values") return String8("off");
+    if (key == "face-detection") return String8("off");
+    return value;
+}
+
+static void add(DefaultKeyedVector<String8,String8> &map, String8 key, String8 value)
+{
+    value = get_forced_value(key, value);
+    map.add(key, value);
+}
+
+static void replaceValueFor(DefaultKeyedVector<String8,String8> &map, String8 key, String8 value)
+{
+    value = get_forced_value(key, value);
+    map.replaceValueFor(key, value);
+}
 
 CameraParameters::CameraParameters()
-    : CameraParameters_EXT(this), mMap()
+                : CameraParameters_EXT(this), mMap()
 {
 }
 
@@ -279,12 +291,12 @@ void CameraParameters::unflatten(const String8 &params)
         if (b == 0) {
             // If there's no semicolon, this is the last item.
             String8 v(a);
-            mMap.add(k, v);
+            add(mMap, k, v);
             break;
         }
 
         String8 v(a, (size_t)(b-a));
-        mMap.add(k, v);
+        add(mMap, k, v);
         a = b+1;
     }
 }
@@ -314,7 +326,7 @@ void CameraParameters::set(const char *key, const char *value)
     }
 #endif
 
-    mMap.replaceValueFor(String8(key), String8(value));
+    replaceValueFor(mMap, String8(key), String8(value));
 }
 
 void CameraParameters::set(const char *key, int value)
@@ -592,7 +604,7 @@ int CameraParameters::previewFormatToEnum(const char* format) {
         !strcmp(format, PIXEL_FORMAT_RGBA8888) ?
             HAL_PIXEL_FORMAT_RGBA_8888 :    // RGB8888
         !strcmp(format, PIXEL_FORMAT_BAYER_RGGB) ?
-            HAL_PIXEL_FORMAT_RAW_SENSOR :   // Raw sensor data
+            HAL_PIXEL_FORMAT_RAW16 :   // Raw sensor data
         -1;
 }
 
@@ -601,14 +613,14 @@ bool CameraParameters::isEmpty() const {
 }
 
 
-void CameraParameters::getBrightnessLumaTargetSet(int *magic, int *sauce) const{};
+void CameraParameters::getBrightnessLumaTargetSet(int *magic __unused, int *sauce __unused) const{};
 void CameraParameters::setBrightnessLumaTargetSet(int brightness, int luma) {
     char str[32];
     snprintf(str, sizeof(str),"%d,%d", brightness, luma);
     set("brightness-luma-target-set", str);
 };
-void CameraParameters::getRawSize(int *magic, int *sauce) const{};
+void CameraParameters::getRawSize(int *magic __unused, int *sauce __unused) const{};
 void CameraParameters::setZsl(const char *sauce) { set("zsl",sauce);};
 const char *CameraParameters::getZsl() const { return get("zsl");};
 
-};
+}; // namespace android
