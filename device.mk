@@ -15,6 +15,7 @@
 # limitations under the License.
 #
 
+$(call inherit-product, $(SRC_TARGET_DIR)/product/product_launched_with_k.mk)
 $(call inherit-product-if-exists, vendor/htc/eyeul/eyeul-vendor.mk)
 
 # Inherit from msm8974-common
