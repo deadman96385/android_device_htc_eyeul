@@ -1,5 +1,6 @@
 #
 # Copyright (C) 2015 The CyanogenMod Project
+#               2020 The LineageOS Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -38,7 +39,7 @@
 TARGET_OTA_ASSERT_DEVICE := eyeul
 
 # Kernel
-TARGET_KERNEL_CONFIG := cm_eyeul_defconfig
+TARGET_KERNEL_CONFIG := eyeul_defconfig
 
 # Bluetooth
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/htc/eyeul/bluetooth
