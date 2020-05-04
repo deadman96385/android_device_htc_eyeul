@@ -21,16 +21,4 @@ include $(call all-subdir-makefiles)
 
 include $(CLEAR_VARS)
 
-MBA_IMAGES := \
-    mba.b00 mba.mdt
-
-MBA_SYMLINKS := $(addprefix $(TARGET_OUT_VENDOR)/firmware/,$(notdir $(MBA_IMAGES)))
-$(MBA_SYMLINKS): $(LOCAL_INSTALLED_MODULE)
-	@echo "MBA firmware link: $@"
-	@mkdir -p $(dir $@)
-	@rm -rf $@
-	$(hide) ln -sf /firmware/radio/$(notdir $@) $@
-
-ALL_DEFAULT_INSTALLED_MODULES += $(MBA_SYMLINKS)
-
 endif
