@@ -21,9 +21,15 @@ $(call inherit-product-if-exists, vendor/htc/eyeul/eyeul-vendor.mk)
 # Inherit from msm8974-common
 $(call inherit-product, device/htc/msm8974-common/msm8974-common.mk)
 
+LOCAL_PATH := device/htc/eyeul
+
+# Overlay
+DEVICE_PACKAGE_OVERLAYS += \
+    $(LOCAL_PATH)/overlay
+
 # Permissions
 PRODUCT_COPY_FILES += \
-    device/htc/eyeul/configs/com.htc.software.market.xml:system/etc/permissions/com.htc.software.market.xml
+    $(LOCAL_PATH)/configs/com.htc.software.market.xml:system/etc/permissions/com.htc.software.market.xml
 
 # Init
 PRODUCT_PACKAGES += \
