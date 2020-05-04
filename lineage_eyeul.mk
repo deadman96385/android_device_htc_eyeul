@@ -31,5 +31,8 @@ PRODUCT_MODEL := Desire Eye
 PRODUCT_MANUFACTURER := HTC
 
 PRODUCT_BUILD_PROP_OVERRIDES += \
-    BUILD_FINGERPRINT="htc/htc_europe/htc_eyeul:5.0.2/LRX22G/504177.1:user/release-keys" \
-    PRIVATE_BUILD_DESC="2.19.401.1 CL504177 release-keys"
+    PRIVATE_BUILD_DESC="4.11.401.1 CL716274 release-keys" \
+    PRODUCT_NAME=eyeul \
+    TARGET_DEVICE=eyeul
+
+BUILD_FINGERPRINT := htc/htc_europe/htc_eyeul:5.0.2/LRX22G/504177.1:user/release-keys
