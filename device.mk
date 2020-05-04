@@ -36,7 +36,3 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     NfcNci \
     nfc_nci.pn54x.default
-
-# SSL Compat
-PRODUCT_PACKAGES += \
-    libboringssl-compat
