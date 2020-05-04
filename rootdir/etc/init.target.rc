@@ -1,0 +1,3 @@
+on early-init
+    # HAL looks for pn54x but kernel driver uses pn544
+    symlink /dev/pn544 /dev/pn54x
